@@ -126,3 +126,9 @@ STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 STATIC_URL = '/static/'
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+ALLOWED_HOSTS = [
+    '0.0.0.0'
+    'subscriptions-django.herokuapp.com',
+    '127.0.0.1'
+]
