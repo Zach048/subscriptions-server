@@ -165,13 +165,16 @@ CORS_ALLOW_CREDENTIALS = True
 ALLOWED_HOSTS = [
     '0.0.0.0',
     'subscriptions-django.herokuapp.com',
-    '127.0.0.1'
+    '127.0.0.1',
+    'subscriptions-vue.herokuapp.com'
 ]
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:8080',
     'http://127.0.0.1:8080',
-    'https://subscriptions-django.herokuapp.com'
+    'https://subscriptions-django.herokuapp.com',
+    'https://subscriptions-vue.herokuapp.com'
+
 ]
 
 DEBUG_APPS = ["django_extensions", "debug_toolbar"]
