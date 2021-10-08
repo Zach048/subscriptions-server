@@ -44,7 +44,7 @@ INSTALLED_APPS = [
 
 # Python Social Auth
 
-# SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+SOCIAL_AUTH_POSTGRES_JSONFIELD = True
 
 AUTHENTICATION_BACKENDS = (
     "social_core.backends.google.GoogleOAuth2",
@@ -173,8 +173,8 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:8080',
     'http://127.0.0.1:8080',
     'https://subscriptions-django.herokuapp.com',
-    'https://subscriptions-vue.herokuapp.com'
-
+    'https://subscriptions-vue.herokuapp.com',
+    'https://beta.govex.works'
 ]
 
 DEBUG_APPS = ["django_extensions", "debug_toolbar"]

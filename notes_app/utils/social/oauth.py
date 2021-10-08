@@ -6,9 +6,9 @@ def get_payload(code):
 
     payload = {
             "code": code,
-            "client_id": '544259183679-ijbi8vh8sv4aneo5sqqe5pirhpn57ko7.apps.googleusercontent.com',
-            "client_secret": 'SJ8lCpcbIeD0AJV6eRmiXO8w',
-            "redirect_uri": "http://127.0.0.1:8080/auth/google-oauth2/callback",
+            "client_id": 'beta.govex.works/auth/oidc',
+            # "client_secret": 'SJ8lCpcbIeD0AJV6eRmiXO8w',
+            "redirect_uri": "beta.govex.works/auth/oidc/callback",
             "grant_type": "authorization_code",
         }
 
@@ -18,7 +18,7 @@ def get_payload(code):
 def get_access_token_from_code(code):
     """Get access token for any OAuth backend from code"""
 
-    url = "https://oauth2.googleapis.com/token"
+    url = "https://idp.jh.edu/idp/profile/oidc/token"
     payload = get_payload(code)
 
     # google returns this:

@@ -23,8 +23,6 @@ from social_django.utils import psa
 from .serializers import UserSerializer
 from .utils.social.oauth import get_access_token_from_code
 
-User = get_user_model()
-
 
 # @require_POST
 # def logout_view(request):
