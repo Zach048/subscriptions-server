@@ -8,7 +8,7 @@ def get_payload(code):
             "code": code,
             "client_id": 'beta.govex.works/auth/oidc',
             # "client_secret": 'SJ8lCpcbIeD0AJV6eRmiXO8w',
-            "redirect_uri": "http://beta.govex.works/auth/oidc/callback",
+            "redirect_uri": "beta.govex.works/auth/oidc/callback",
             "grant_type": "authorization_code",
         }
 
