@@ -31,5 +31,7 @@ def get_access_token_from_code(code):
     # }
     r = requests.post(url, data=payload)
     token = r.json()["access_token"]
+    print(r.json())
+    print(token)
 
     return token
