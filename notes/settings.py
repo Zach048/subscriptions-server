@@ -166,7 +166,8 @@ ALLOWED_HOSTS = [
     '0.0.0.0',
     'subscriptions-django.herokuapp.com',
     '127.0.0.1',
-    'subscriptions-vue.herokuapp.com'
+    'subscriptions-vue.herokuapp.com',
+    'https://beta.govex.works'
 ]
 
 CORS_ALLOWED_ORIGINS = [
