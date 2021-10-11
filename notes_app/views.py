@@ -22,9 +22,8 @@ from social_django.utils import psa
 
 from .serializers import UserSerializer
 from .utils.social.oauth import get_access_token_from_code
-from rest_framework_simplejwt.authentication import JWTAuthentication
+import jwt
 
-JWT_authenticator = JWTAuthentication()
 # @require_POST
 # def logout_view(request):
 #     logout(request)
@@ -120,10 +119,8 @@ def exchange_token(request, backend):
             # enabled/configured backend
             # which python-social-auth can handle.
             # user = request.backend.do_auth(access_token)
-            response = JWT_authenticator.authenticate(request)
-             # unpacking
-            user, token = response
-            print("this is decoded token claims", token.payload)
+            decoded = jwt.decode(access_token)
+            print(decoded)
         except HTTPError as e:
             # An HTTPError bubbled up from the request to the social
             # auth provider.
