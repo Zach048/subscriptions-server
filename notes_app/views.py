@@ -120,8 +120,10 @@ def exchange_token(request, backend):
             # enabled/configured backend
             # which python-social-auth can handle.
             # user = request.backend.do_auth(access_token)
-            user = JWT_authenticator(access_token)
-            print(user)
+            response = JWT_authenticator.authenticate(request)
+             # unpacking
+            user, token = response
+            print("this is decoded token claims", token.payload)
         except HTTPError as e:
             # An HTTPError bubbled up from the request to the social
             # auth provider.
