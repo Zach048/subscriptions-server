@@ -131,8 +131,7 @@ def exchange_token(request, backend):
             # enabled/configured backend
             # which python-social-auth can handle.
             # user = request.backend.do_auth(tokens['access_token'])
-            user = Token.objects.get(key=tokens['access_token']).user
-            print(user)
+            # login(request, user, backend=settings.AUTHENTICATION_BACKENDS[0])
             decoded = parse_id_token(tokens['id_token'])
             print(decoded)
         except HTTPError as e:

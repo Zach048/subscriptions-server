@@ -39,8 +39,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'notes_app',
     'rest_framework',
-    "social_django",
-    "rest_framework.authtoken"
+    "social_django"
 ]
 
 # Python Social Auth
@@ -48,7 +47,6 @@ INSTALLED_APPS = [
 SOCIAL_AUTH_POSTGRES_JSONFIELD = True
 
 AUTHENTICATION_BACKENDS = (
-    "social_core.backends.google.GoogleOAuth2",
     "django.contrib.auth.backends.ModelBackend",
 )
 
