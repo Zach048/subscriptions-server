@@ -119,7 +119,7 @@ def exchange_token(request, backend):
             # enabled/configured backend
             # which python-social-auth can handle.
             # user = request.backend.do_auth(access_token)
-            decoded = jwt.decode(access_token, algorithms=["RS256"])
+            decoded = jwt.decode(access_token, verify=False)
             print(decoded)
         except HTTPError as e:
             # An HTTPError bubbled up from the request to the social
