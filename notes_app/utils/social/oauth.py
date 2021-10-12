@@ -30,7 +30,7 @@ def get_access_token_from_code(code):
     #   'id_token': 'oierfoie940j.ferferfoprek/refpekf9efoeik.long token'
     # }
     r = requests.post(url, data=payload)
-    token = r.json()["access_token"]
+    token = r.json()["id_token"]
     print(r.json())
     print(token)
 
