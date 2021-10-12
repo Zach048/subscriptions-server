@@ -22,7 +22,8 @@ from social_django.utils import psa
 
 from .serializers import UserSerializer
 from .utils.social.oauth import get_access_token_from_code
-import jwt
+import base64
+import json
 
 # @require_POST
 # def logout_view(request):
@@ -59,6 +60,16 @@ import jwt
 #         login(request, user)
 #         return JsonResponse({"detail": "Success"})
 #     return JsonResponse({"detail": "Invalid credentials"}, status=400)
+
+def parse_id_token(token: str) -> dict:
+    parts = token.split(".")
+    if len(parts) != 3:
+        raise Exception("Incorrect id token format")
+
+    payload = parts[1]
+    padded = payload + '=' * (4 - len(payload) % 4)
+    decoded = base64.b64decode(padded)
+    return json.loads(decoded)
 
 
 def get_tokens_for_user(user):
@@ -119,7 +130,7 @@ def exchange_token(request, backend):
             # enabled/configured backend
             # which python-social-auth can handle.
             # user = request.backend.do_auth(access_token)
-            decoded = jwt.decode(access_token, verify=False)
+            decoded = parse_id_token(access_token)
             print(decoded)
         except HTTPError as e:
             # An HTTPError bubbled up from the request to the social
