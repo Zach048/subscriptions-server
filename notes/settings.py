@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'notes_app',
     'rest_framework',
-    "social_django"
+    "social_django",
+    "rest_framework.authtoken"
 ]
 
 # Python Social Auth
