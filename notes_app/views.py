@@ -129,7 +129,7 @@ def exchange_token(request, backend):
             # get and populate a user object for any properly
             # enabled/configured backend
             # which python-social-auth can handle.
-            user = request.OpenIdConnect.do_auth(tokens['access_token'])
+            user = request.google-oauth2.do_auth(tokens['access_token'])
             print(user)
             decoded = parse_id_token(tokens['id_token'])
             print(decoded)
