@@ -114,7 +114,7 @@ def exchange_token(request, backend):
     if serializer.is_valid(raise_exception=True):
 
         code = serializer.validated_data["code"]
-        access_token = get_access_token_from_code(code)
+        tokens = get_access_token_from_code(code)
         # set up non-field errors key
         # http://www.django-rest-framework.org/api-guide/exceptions/
         # #exception-handling-in-rest-framework-views
@@ -129,8 +129,9 @@ def exchange_token(request, backend):
             # get and populate a user object for any properly
             # enabled/configured backend
             # which python-social-auth can handle.
-            # user = request.backend.do_auth(access_token)
-            decoded = parse_id_token(access_token)
+            user = request.backend.do_auth(tokens['access_token'])
+            print(user)
+            decoded = parse_id_token(tokens['id_token'])
             print(decoded)
         except HTTPError as e:
             # An HTTPError bubbled up from the request to the social
