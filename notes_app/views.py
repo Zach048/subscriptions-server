@@ -24,6 +24,7 @@ from .serializers import UserSerializer
 from .utils.social.oauth import get_access_token_from_code
 import base64
 import json
+from rest_framework.authtoken.models import Token
 
 # @require_POST
 # def logout_view(request):
@@ -129,7 +130,8 @@ def exchange_token(request, backend):
             # get and populate a user object for any properly
             # enabled/configured backend
             # which python-social-auth can handle.
-            user = request.backend.do_auth(tokens['access_token'])
+            # user = request.backend.do_auth(tokens['access_token'])
+            user = Token.objects.get(key=tokens['access_token']).user
             print(user)
             decoded = parse_id_token(tokens['id_token'])
             print(decoded)
