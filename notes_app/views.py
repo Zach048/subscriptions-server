@@ -109,7 +109,6 @@ def exchange_token(request, backend):
     Requests must include the following field
     - `access_token`: The OAuth2 access token provided by the provider
     """
-    print(json.dumps(request.backend))
     serializer = SocialSerializer(data=request.data)
 
     if serializer.is_valid(raise_exception=True):
@@ -133,7 +132,7 @@ def exchange_token(request, backend):
             # which python-social-auth can handle.
             # user = request.backend.do_auth(tokens['access_token'])
             decoded = parse_id_token(tokens['id_token'])
-            user = login(request, decoded['sub'], backend=settings.AUTHENTICATION_BACKENDS[0])
+            login(request, decoded['sub'], backend=settings.AUTHENTICATION_BACKENDS[0])
 
         except HTTPError as e:
             # An HTTPError bubbled up from the request to the social
