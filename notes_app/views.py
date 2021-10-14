@@ -109,7 +109,7 @@ def exchange_token(request, backend):
     Requests must include the following field
     - `access_token`: The OAuth2 access token provided by the provider
     """
-    print(request.data)
+    print(json.dumps(request))
     serializer = SocialSerializer(data=request.data)
 
     if serializer.is_valid(raise_exception=True):
