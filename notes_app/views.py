@@ -132,7 +132,6 @@ def exchange_token(request, backend):
 
             # which python-social-auth can handle.
             # user = request.backend.do_auth(tokens['access_token'])
-            print(request.json())
             decoded = parse_id_token(tokens['id_token'])
             user = login(request, decoded['sub'], backend=settings.AUTHENTICATION_BACKENDS[0])
 
