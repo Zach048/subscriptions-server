@@ -140,7 +140,7 @@ def exchange_token(request, backend):
             keyset = get_jwks_pairs(tokens['access_token'])
             print(decoded_id_token)
             print(keyset)
-            if decoded_id_token[0]['kid'] == keyset[0]['kid']:
+            if decoded_id_token[0]['kid'] == keyset['keys'][0]['kid']:
                 pubkey = construct((keyset[0]['n'], keyset[0]['e']))
                 print(pubkey)
 
