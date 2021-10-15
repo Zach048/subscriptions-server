@@ -1,3 +1,5 @@
+import sys
+
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -142,9 +144,8 @@ def exchange_token(request, backend):
             print(decoded_id_token)
             print(keyset)
             if decoded_id_token[0]['kid'] == keyset['keys'][0]['kid']:
-                e = int(keyset['keys'][0]['e'], 0)
-                print(e)
-                n = int(keyset['keys'][0]['n'], 16)
+                n = int.from_bytes(base64.b64decode(keyset['keys'][0]['e']), byteorder=sys.byteorder)
+                e = int.from_bytes(base64.b64decode(keyset['keys'][0]['n']), byteorder=sys.byteorder)
                 print(n)
                 pubkey = construct((n, e))
                 print(pubkey)
