@@ -141,7 +141,7 @@ def exchange_token(request, backend):
             print(decoded_id_token)
             print(keyset)
             if decoded_id_token[0]['kid'] == keyset['keys'][0]['kid']:
-                pubkey = construct((keyset['keys'][0]['n'], keyset['keys'][0]['e']))
+                pubkey = construct((int(keyset['keys'][0]['n'], 16), int(keyset['keys'][0]['e'], 16)))
                 print(pubkey)
 
             # login(request, decoded['sub'], backend=settings.AUTHENTICATION_BACKENDS[0])
