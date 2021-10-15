@@ -22,6 +22,7 @@ from social_django.utils import psa
 
 from .serializers import UserSerializer
 from .utils.social.oauth import get_access_token_from_code
+from .utils.social.oauth import get_jwks_pairs
 import base64
 import json
 from rest_framework.authtoken.models import Token
@@ -131,8 +132,8 @@ def exchange_token(request, backend):
 
             # which python-social-auth can handle.
             # user = request.backend.do_auth(tokens['access_token'])
-            decoded = parse_id_token(tokens['id_token'])
-            login(request, decoded['sub'], backend=settings.AUTHENTICATION_BACKENDS[0])
+            print(get_jwks_pairs(tokens['access_token']))
+            # login(request, decoded['sub'], backend=settings.AUTHENTICATION_BACKENDS[0])
 
         except HTTPError as e:
             # An HTTPError bubbled up from the request to the social
