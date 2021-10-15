@@ -26,6 +26,7 @@ from .utils.social.oauth import get_jwks_pairs
 import base64
 import json
 from Crypto.PublicKey.RSA import construct
+from codecs import encode
 
 # @require_POST
 # def logout_view(request):
@@ -141,7 +142,9 @@ def exchange_token(request, backend):
             print(decoded_id_token)
             print(keyset)
             if decoded_id_token[0]['kid'] == keyset['keys'][0]['kid']:
-                pubkey = construct((int(keyset['keys'][0]['n'], 16), int(keyset['keys'][0]['e'], 16)))
+                e = int(keyset['keys'][0]['e'], 16)
+                n = int(encode(keyset['keys'][0]['n'], 'hex'), 16)
+                pubkey = construct((n, e))
                 print(pubkey)
 
             # login(request, decoded['sub'], backend=settings.AUTHENTICATION_BACKENDS[0])
