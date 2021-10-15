@@ -67,12 +67,13 @@ def parse_id_token(token: str) -> dict:
     parts = token.split(".")
     if len(parts) != 3:
         raise Exception("Incorrect id token format")
-
+    headers = parts[0]
     payload = parts[1]
     print('payload: ' + payload)
-    padded = payload + '=' * (4 - len(payload) % 4)
-    print('padded: ' + padded)
-    decoded = base64.b64decode(padded)
+    padded_headers = headers + '=' * (4 - len(headers) % 4)
+    padded_payload = payload + '=' * (4 - len(payload) % 4)
+    print('padded: ' + padded_headers)
+    decoded = [base64.b64decode(padded_headers), base64.b64decode(padded_headers)]
     return json.loads(decoded)
 
 
