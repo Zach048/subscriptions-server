@@ -25,7 +25,7 @@ from .utils.social.oauth import get_access_token_from_code
 from .utils.social.oauth import get_jwks_pairs
 import base64
 import json
-from rest_framework.authtoken.models import Token
+from Crypto.PublicKey.RSA import construct
 
 # @require_POST
 # def logout_view(request):
@@ -67,16 +67,14 @@ def parse_id_token(token: str) -> list:
     parts = token.split(".")
     if len(parts) != 3:
         raise Exception("Incorrect id token format")
+
     headers = parts[0]
     payload = parts[1]
-    print('payload: ' + payload)
     padded_headers = headers + '=' * (4 - len(headers) % 4)
     padded_payload = payload + '=' * (4 - len(payload) % 4)
-    print('padded: ' + padded_headers)
     decoded_headers = base64.b64decode(padded_headers)
-    print(decoded_headers)
     decoded_payload = base64.b64decode(padded_payload)
-    print(decoded_payload)
+
     return [json.loads(decoded_headers), json.loads(decoded_payload)]
 
 
@@ -140,8 +138,10 @@ def exchange_token(request, backend):
             # user = request.backend.do_auth(tokens['access_token'])
             decoded_id_token = parse_id_token(tokens['id_token'])
             keyset = get_jwks_pairs(tokens['access_token'])
-            print(decoded_id_token)
-            print(keyset)
+            if decoded_id_token[0]['kid'] == keyset[0]['kid']:
+                pubkey = construct((keyset[0]['n'], keyset[0]['e']))
+                print(pubkey)
+
             # login(request, decoded['sub'], backend=settings.AUTHENTICATION_BACKENDS[0])
 
         except HTTPError as e:
