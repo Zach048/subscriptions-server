@@ -142,8 +142,10 @@ def exchange_token(request, backend):
             print(decoded_id_token)
             print(keyset)
             if decoded_id_token[0]['kid'] == keyset['keys'][0]['kid']:
-                e = int(encode(keyset['keys'][0]['e'], 'hex'), 16)
-                n = int(encode(keyset['keys'][0]['n'], 'hex'), 16)
+                e = int(keyset['keys'][0]['e'], 16)
+                print(e)
+                n = int(keyset['keys'][0]['n'], 16)
+                print(n)
                 pubkey = construct((n, e))
                 print(pubkey)
 
