@@ -74,8 +74,10 @@ def parse_id_token(token: str) -> dict:
     padded_payload = payload + '=' * (4 - len(payload) % 4)
     print('padded: ' + padded_headers)
     decoded_headers = base64.b64decode(padded_headers)
-    decoded_payload =  base64.b64decode(padded_payload)
-    return json.loads(decoded_headers)+json.loads(padded_payload)
+    print(decoded_headers)
+    decoded_payload = base64.b64decode(padded_payload)
+    print(decoded_payload)
+    return json.loads(decoded_headers)+json.loads(decoded_payload)
 
 
 def get_tokens_for_user(user):
