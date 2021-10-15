@@ -144,8 +144,8 @@ def exchange_token(request, backend):
             print(decoded_id_token)
             print(keyset)
             if decoded_id_token[0]['kid'] == keyset['keys'][0]['kid']:
-                e = int.from_bytes(base64.b64decode(keyset['keys'][0]['e']), byteorder=sys.byteorder)
-                n = int.from_bytes(base64.b64decode(keyset['keys'][0]['n']), byteorder=sys.byteorder)
+                e = int.from_bytes(base64.b64decode(keyset['keys'][0]['e']), byteorder='big')
+                n = int.from_bytes(base64.b64decode(keyset['keys'][0]['n']), byteorder='big')
                 print(n)
                 print(e)
                 pubkey = construct((n, e))
