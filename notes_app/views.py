@@ -63,7 +63,7 @@ from rest_framework.authtoken.models import Token
 #         return JsonResponse({"detail": "Success"})
 #     return JsonResponse({"detail": "Invalid credentials"}, status=400)
 
-def parse_id_token(token: str) -> dict:
+def parse_id_token(token: str) -> list:
     parts = token.split(".")
     if len(parts) != 3:
         raise Exception("Incorrect id token format")
@@ -77,7 +77,7 @@ def parse_id_token(token: str) -> dict:
     print(decoded_headers)
     decoded_payload = base64.b64decode(padded_payload)
     print(decoded_payload)
-    return json.loads(decoded_headers)+json.loads(decoded_payload)
+    return [json.loads(decoded_headers), json.loads(decoded_payload)]
 
 
 def get_tokens_for_user(user):
