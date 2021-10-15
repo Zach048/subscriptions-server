@@ -132,7 +132,10 @@ def exchange_token(request, backend):
 
             # which python-social-auth can handle.
             # user = request.backend.do_auth(tokens['access_token'])
-            print(get_jwks_pairs(tokens['access_token']))
+            decoded_id_token = parse_id_token(tokens['id_token'])
+            keyset = get_jwks_pairs(tokens['access_token'])
+            print(decoded_id_token)
+            print(keyset)
             # login(request, decoded['sub'], backend=settings.AUTHENTICATION_BACKENDS[0])
 
         except HTTPError as e:
