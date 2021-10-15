@@ -138,6 +138,8 @@ def exchange_token(request, backend):
             # user = request.backend.do_auth(tokens['access_token'])
             decoded_id_token = parse_id_token(tokens['id_token'])
             keyset = get_jwks_pairs(tokens['access_token'])
+            print(decoded_id_token)
+            print(keyset)
             if decoded_id_token[0]['kid'] == keyset[0]['kid']:
                 pubkey = construct((keyset[0]['n'], keyset[0]['e']))
                 print(pubkey)
