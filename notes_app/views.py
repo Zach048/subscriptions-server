@@ -28,6 +28,8 @@ from .utils.social.oauth import get_jwks_pairs
 import base64
 import json
 from Crypto.PublicKey.RSA import construct
+import jwt
+from cryptography.hazmat.primitives import serialization
 from codecs import encode
 
 # @require_POST
@@ -144,12 +146,15 @@ def exchange_token(request, backend):
             print(decoded_id_token)
             print(keyset)
             if decoded_id_token[0]['kid'] == keyset['keys'][0]['kid']:
-                e = base64.b64decode(keyset['keys'][0]['e'])
-                n = base64.b64decode(keyset['keys'][0]['n'])
-                print(n)
-                print(e)
-                pubkey = construct((n, e))
-                print(pubkey)
+                # e = int.from_bytes(base64.b64decode(keyset['keys'][0]['e']), byteorder='big')
+                # n = int.from_bytes(base64.b64decode(keyset['keys'][0]['n']), byteorder='big')
+                # print(n)
+                # print(e)
+                # pubkey = construct((n, e))
+                # print(pubkey)
+                webkey = keyset['keys'][0]
+                public_key = jwt.algorithms.RSAAlgorithm.from_jwk(webkey)
+                print(public_key)
 
             # login(request, decoded['sub'], backend=settings.AUTHENTICATION_BACKENDS[0])
 
