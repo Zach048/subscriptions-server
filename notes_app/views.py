@@ -154,7 +154,7 @@ def exchange_token(request, backend):
                 # print(pubkey)
                 webkey = keyset['keys'][0]
                 public_key = jwt.algorithms.RSAAlgorithm.from_jwk(webkey)
-                jwt.decode(decoded_id_token, public_key, algorithms=['RS256'])
+                jwt.decode(tokens['id_token'], public_key, algorithms=['RS256'])
 
             # login(request, decoded['sub'], backend=settings.AUTHENTICATION_BACKENDS[0])
 
