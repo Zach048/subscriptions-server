@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'corsheaders',
     'notes_app',
     'rest_framework',
-    "social_django"
 ]
 
 # Python Social Auth
@@ -47,24 +46,24 @@ INSTALLED_APPS = [
 SOCIAL_AUTH_POSTGRES_JSONFIELD = True
 
 AUTHENTICATION_BACKENDS = (
-    "social_core.backends.google.GoogleOAuth2",
+    "notes_app.auth_backend.JohnsHopkinsAuth"
     "django.contrib.auth.backends.ModelBackend",
 )
 
-SOCIAL_AUTH_KEY = "AIzaSyD8ySrsQBHb1aWEVvZlt0ym8DVUoADKn5w"
-
-SOCIAL_AUTH_PIPELINE = (
-    "social_core.pipeline.social_auth.social_details",
-    "social_core.pipeline.social_auth.social_uid",
-    "social_core.pipeline.social_auth.auth_allowed",
-    "social_core.pipeline.social_auth.social_user",
-    # 'social_core.pipeline.user.get_username',
-    "social_core.pipeline.social_auth.associate_by_email",
-    "social_core.pipeline.user.create_user",
-    "social_core.pipeline.social_auth.associate_user",
-    "social_core.pipeline.social_auth.load_extra_data",
-    "social_core.pipeline.user.user_details",
-)
+# SOCIAL_AUTH_KEY = "AIzaSyD8ySrsQBHb1aWEVvZlt0ym8DVUoADKn5w"
+#
+# SOCIAL_AUTH_PIPELINE = (
+#     "social_core.pipeline.social_auth.social_details",
+#     "social_core.pipeline.social_auth.social_uid",
+#     "social_core.pipeline.social_auth.auth_allowed",
+#     "social_core.pipeline.social_auth.social_user",
+#     # 'social_core.pipeline.user.get_username',
+#     "social_core.pipeline.social_auth.associate_by_email",
+#     "social_core.pipeline.user.create_user",
+#     "social_core.pipeline.social_auth.associate_user",
+#     "social_core.pipeline.social_auth.load_extra_data",
+#     "social_core.pipeline.user.user_details",
+# )
 
 
 MIDDLEWARE = [

@@ -9,8 +9,7 @@ urlpatterns = [
     # path("login/", views.login_view, name="login-view"),
     # path("logout/", views.logout_view, name="logout-view"),
     path("users/profile/", views.Profile.as_view(), name="user-profile",),
-    # Social Auth Callbacks
-    path("social/<backend>/", views.exchange_token, name="social-auth",),
+    path("auth/", views.exchange_token, name="auth",),
     path('subscriptions/', views.SubscriptionList.as_view()),
     path('subscriptions/<int:pk>/', views.SubscriptionDetail.as_view()),
 ]
