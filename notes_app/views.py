@@ -103,7 +103,7 @@ class SocialSerializer(serializers.Serializer):
 @api_view(http_method_names=["POST"])
 @permission_classes([AllowAny])
 @psa()
-def exchange_token(request, backend):
+def exchange_token(request):
     """
     Exchange an OAuth2 access token for one for this site.
     This simply defers the entire OAuth2 process to the front end.
