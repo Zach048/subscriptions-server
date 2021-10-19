@@ -144,6 +144,7 @@ def exchange_token(request):
             keyset = get_jwks_pairs(tokens['access_token'])
             print(decoded_id_token)
             print(keyset)
+            print(tokens)
             if decoded_id_token[0]['kid'] == keyset['keys'][0]['kid']:
                 # e = int.from_bytes(base64.b64decode(keyset['keys'][0]['e']), byteorder='big')
                 # n = int.from_bytes(base64.b64decode(keyset['keys'][0]['n']), byteorder='big')
@@ -154,7 +155,7 @@ def exchange_token(request):
                 webkey = keyset['keys'][0]
                 public_key = jwt.algorithms.RSAAlgorithm.from_jwk(webkey)
                 jwt.decode(tokens['id_token'], public_key, algorithms=['RS256'])
-
+                user = authenticate(request, decoded_id_token[1]['sub'])
             # login(request, decoded['sub'], backend=settings.AUTHENTICATION_BACKENDS[0])
 
         except HTTPError as e:

@@ -9,7 +9,8 @@ urlpatterns = [
     # path("login/", views.login_view, name="login-view"),
     # path("logout/", views.logout_view, name="logout-view"),
     path("users/profile/", views.Profile.as_view(), name="user-profile",),
-    path("auth/", views.exchange_token, name="auth",),
+    # path("auth/", views.exchange_token, name="auth",),
+    path("auth/oidc/callback", views.auth_complete, name="auth_callback",),
     path('subscriptions/', views.SubscriptionList.as_view()),
     path('subscriptions/<int:pk>/', views.SubscriptionDetail.as_view()),
 ]
