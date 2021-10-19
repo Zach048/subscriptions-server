@@ -10,7 +10,7 @@ urlpatterns = [
     # path("logout/", views.logout_view, name="logout-view"),
     path("users/profile/", views.Profile.as_view(), name="user-profile",),
     # path("auth/", views.exchange_token, name="auth",),
-    path("auth/oidc/callback", views.auth_complete, name="auth_callback",),
+    path("auth/oidc/callback", views.exchange_token, name="auth_callback",),
     path('subscriptions/', views.SubscriptionList.as_view()),
     path('subscriptions/<int:pk>/', views.SubscriptionDetail.as_view()),
 ]
