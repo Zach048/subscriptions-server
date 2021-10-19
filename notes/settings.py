@@ -43,7 +43,7 @@ INSTALLED_APPS = [
 
 # Python Social Auth
 
-SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+# SOCIAL_AUTH_POSTGRES_JSONFIELD = True
 
 AUTHENTICATION_BACKENDS = (
     "notes_app.auth_backend.JohnsHopkinsAuth"
@@ -166,7 +166,8 @@ ALLOWED_HOSTS = [
     'subscriptions-django.herokuapp.com',
     '127.0.0.1',
     'subscriptions-vue.herokuapp.com',
-    'https://beta.govex.works'
+    'https://beta.govex.works',
+    'beta.govex.works'
 ]
 
 CORS_ALLOWED_ORIGINS = [
