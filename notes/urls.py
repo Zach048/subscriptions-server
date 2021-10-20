@@ -17,11 +17,15 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
+from notes_app import views
 
 
 urlpatterns = [
     path('api/', include('notes_app.urls')),
     path('admin/', admin.site.urls),
+    path("auth/oidc/callback", views.redirect_auth, name="auth_callback", ),
+    path("auth/oidc", views.exchange_token, name="auth", ),
+
 ]
 
 if settings.DEBUG:

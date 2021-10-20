@@ -1,17 +1,15 @@
 from django.contrib.auth.models import User
-from django.conf import settings
+from django.contrib.auth.backends import BaseBackend
 
 
-# requires to define two functions authenticate and get_user
+class JohnsHopkinsAuth(BaseBackend):
 
-class JohnsHopkinsAuth:
-
-    def authenticate(self, request, username=None):
-        try:
-            user = User.objects.get(username=username)
-            return user
-        except User.DoesNotExist:
-            return None
+    def authenticate(self, username):
+        user = None
+        user, created = User.objects.get_or_create(username=username)
+        if created:
+            user.set_unusable_password()
+        return user
 
     def get_user(self, user_id):
         try:

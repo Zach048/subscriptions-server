@@ -46,7 +46,7 @@ INSTALLED_APPS = [
 # SOCIAL_AUTH_POSTGRES_JSONFIELD = True
 
 AUTHENTICATION_BACKENDS = (
-    "notes_app.auth_backend.JohnsHopkinsAuth"
+    "notes_app.auth_backend.JohnsHopkinsAuth",
     "django.contrib.auth.backends.ModelBackend",
 )
 
