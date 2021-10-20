@@ -113,9 +113,8 @@ class SocialSerializer(serializers.Serializer):
     code = serializers.CharField(allow_blank=False, trim_whitespace=True,)
 
 
-# @api_view(http_method_names=["POST"])
-# @permission_classes([AllowAny])
-@csrf_exempt
+@api_view(http_method_names=["POST"])
+@permission_classes([AllowAny])
 def exchange_token(request):
     """
     Exchange an OAuth2 access token for one for this site.
@@ -132,87 +131,87 @@ def exchange_token(request):
     Requests must include the following field
     - `access_token`: The OAuth2 access token provided by the provider
     """
-    # serializer = SocialSerializer(data=request.data)
-    #
-    # if serializer.is_valid(raise_exception=True):
-    #
-    #     code = serializer.validated_data["code"]
-    print(list(request.POST.items()))
-    tokens = get_access_token_from_code(request.POST['code'])
-    # set up non-field errors key
-    # http://www.django-rest-framework.org/api-guide/exceptions/
-    # #exception-handling-in-rest-framework-views
-    try:
-        nfe = settings.NON_FIELD_ERRORS_KEY
-    except AttributeError:
-        nfe = "non_field_errors"
+    serializer = SocialSerializer(data=request.data)
 
-    try:
-        # this line, plus the psa decorator above, are all that's
-        # necessary to
-        # get and populate a user object for any properly
-        # enabled/configured backend
+    if serializer.is_valid(raise_exception=True):
 
-        # which python-social-auth can handle.
-        # user = request.backend.do_auth(tokens['access_token'])
-        decoded_id_token = parse_id_token(tokens['id_token'])
-        keyset = get_jwks_pairs(tokens['access_token'])
-        print(decoded_id_token)
-        print(keyset)
-        print(tokens)
-        if decoded_id_token[0]['kid'] == keyset['keys'][0]['kid']:
-            # e = int.from_bytes(base64.b64decode(keyset['keys'][0]['e']), byteorder='big')
-            # n = int.from_bytes(base64.b64decode(keyset['keys'][0]['n']), byteorder='big')
-            # print(n)
-            # print(e)
-            # pubkey = construct((n, e))
-            # print(pubkey)
-            webkey = keyset['keys'][0]
-            public_key = jwt.algorithms.RSAAlgorithm.from_jwk(webkey)
-            # jwks_client = jwt.PyJWKClient("https://idp.jh.edu/idp/profile/oidc/keyset")
-            # signing_key = jwks_client.get_signing_key_from_jwt(tokens['id_token'])
-            user = jwt.decode(tokens['id_token'], public_key, algorithms=['RS256'],
-                              audience="beta.govex.works/auth/oidc")
-            # jwt.decode(tokens['id_token'], public_key, algorithms=['RS256'])
-            user = authenticate(user['sub'])
-            print(user)
-        # login(request, user, backend=settings.AUTHENTICATION_BACKENDS[0])
+        code = serializer.validated_data["code"]
+        # print(list(request.POST.items()))
+        tokens = get_access_token_from_code(code)
+        # set up non-field errors key
+        # http://www.django-rest-framework.org/api-guide/exceptions/
+        # #exception-handling-in-rest-framework-views
+        try:
+            nfe = settings.NON_FIELD_ERRORS_KEY
+        except AttributeError:
+            nfe = "non_field_errors"
 
-    except HTTPError as e:
-        # An HTTPError bubbled up from the request to the social
-        # auth provider.
-        # This happens, at least in Google's case, every time you
-        # send a malformed
-        # or incorrect access key.
-        return Response(
-            {"errors": {"token": "Invalid token", "detail": str(e)}},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
+        try:
+            # this line, plus the psa decorator above, are all that's
+            # necessary to
+            # get and populate a user object for any properly
+            # enabled/configured backend
 
-    if user:
-        if user.is_active:
-            refresh = RefreshToken.for_user(user)
-            print(refresh.access_token)
-            return JsonResponse({'refresh': str(refresh),
-                                'access': str(refresh.access_token)})
-        else:
-            # user is not active; at some point they deleted their account,
-            # or were banned by a superuser. They can't just log
-            # in with their
-            # normal credentials anymore, so they can't log in with social
-            # credentials either.
+            # which python-social-auth can handle.
+            # user = request.backend.do_auth(tokens['access_token'])
+            decoded_id_token = parse_id_token(tokens['id_token'])
+            keyset = get_jwks_pairs(tokens['access_token'])
+            print(decoded_id_token)
+            print(keyset)
+            print(tokens)
+            if decoded_id_token[0]['kid'] == keyset['keys'][0]['kid']:
+                # e = int.from_bytes(base64.b64decode(keyset['keys'][0]['e']), byteorder='big')
+                # n = int.from_bytes(base64.b64decode(keyset['keys'][0]['n']), byteorder='big')
+                # print(n)
+                # print(e)
+                # pubkey = construct((n, e))
+                # print(pubkey)
+                webkey = keyset['keys'][0]
+                public_key = jwt.algorithms.RSAAlgorithm.from_jwk(webkey)
+                # jwks_client = jwt.PyJWKClient("https://idp.jh.edu/idp/profile/oidc/keyset")
+                # signing_key = jwks_client.get_signing_key_from_jwt(tokens['id_token'])
+                user = jwt.decode(tokens['id_token'], public_key, algorithms=['RS256'],
+                                  audience="beta.govex.works/auth/oidc")
+                # jwt.decode(tokens['id_token'], public_key, algorithms=['RS256'])
+                user = authenticate(user['sub'])
+                print(user)
+            # login(request, user, backend=settings.AUTHENTICATION_BACKENDS[0])
+
+        except HTTPError as e:
+            # An HTTPError bubbled up from the request to the social
+            # auth provider.
+            # This happens, at least in Google's case, every time you
+            # send a malformed
+            # or incorrect access key.
             return Response(
-                {"errors": {nfe: "This user account is inactive"}},
+                {"errors": {"token": "Invalid token", "detail": str(e)}},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-    else:
-        # Unfortunately, PSA swallows any information the backend provider
-        # generated as to why specifically the authentication failed;
-        # this makes it tough to debug except by examining the server logs.
-        return Response(
-            {"errors": {nfe: "Authentication Failed"}},
-            status=status.HTTP_400_BAD_REQUEST,
-        )
+
+        if user:
+            if user.is_active:
+                refresh = RefreshToken.for_user(user)
+                print(refresh.access_token)
+                return JsonResponse({'refresh': str(refresh),
+                                    'access': str(refresh.access_token)})
+            else:
+                # user is not active; at some point they deleted their account,
+                # or were banned by a superuser. They can't just log
+                # in with their
+                # normal credentials anymore, so they can't log in with social
+                # credentials either.
+                return Response(
+                    {"errors": {nfe: "This user account is inactive"}},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+        else:
+            # Unfortunately, PSA swallows any information the backend provider
+            # generated as to why specifically the authentication failed;
+            # this makes it tough to debug except by examining the server logs.
+            return Response(
+                {"errors": {nfe: "Authentication Failed"}},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
 
 class Profile(APIView):
