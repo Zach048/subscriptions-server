@@ -86,7 +86,7 @@ def exchange_token(request):
             nfe = "non_field_errors"
 
         try:
-            # Validate the keys id math from the decoded id token
+            # Validate the keys' ids match from the decoded id token
             # and the keyset derived from the jwks then validate the signature
             # is legitimately from JHU
             decoded_id_token = parse_id_token(tokens['id_token'])
@@ -96,7 +96,7 @@ def exchange_token(request):
                 webkey = keyset['keys'][0]
                 public_key = jwt.algorithms.RSAAlgorithm.from_jwk(webkey)
                 user = jwt.decode(tokens['id_token'], public_key, algorithms=['RS256'],
-                                  audience="beta.govex.works/auth/oidc")
+                                  audience="beta.govex.works/auth/oidc")  # audience is required, change for prod
                 user = authenticate(user['sub'])
 
         except HTTPError as e:
@@ -130,6 +130,7 @@ def exchange_token(request):
             )
 
 
+# possibly not needed, may use a getUser(pkey) method to get the complete user object instead
 @permission_classes([IsAuthenticated])
 class Profile(APIView):
 

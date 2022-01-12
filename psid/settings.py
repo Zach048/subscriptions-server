@@ -16,7 +16,6 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -24,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get('DEBUG', False)
 
 # Application definition
 
@@ -40,29 +39,10 @@ INSTALLED_APPS = [
     'rest_framework',
 ]
 
-# Python Social Auth
-
-# SOCIAL_AUTH_POSTGRES_JSONFIELD = True
-
 AUTHENTICATION_BACKENDS = (
     "api.auth_backend.JohnsHopkinsAuth",
     "django.contrib.auth.backends.ModelBackend",
 )
-
-# SOCIAL_AUTH_KEY = "AIzaSyD8ySrsQBHb1aWEVvZlt0ym8DVUoADKn5w"
-#
-# SOCIAL_AUTH_PIPELINE = (
-#     "social_core.pipeline.social_auth.social_details",
-#     "social_core.pipeline.social_auth.social_uid",
-#     "social_core.pipeline.social_auth.auth_allowed",
-#     "social_core.pipeline.social_auth.social_user",
-#     # 'social_core.pipeline.user.get_username',
-#     "social_core.pipeline.social_auth.associate_by_email",
-#     "social_core.pipeline.user.create_user",
-#     "social_core.pipeline.social_auth.associate_user",
-#     "social_core.pipeline.social_auth.load_extra_data",
-#     "social_core.pipeline.user.user_details",
-# )
 
 
 MIDDLEWARE = [
@@ -108,9 +88,6 @@ DATABASES = {
 }
 
 # AUTH_USER_MODEL = "api.CustomUser"
-
-# CSRF_COOKIE_NAME = 'XSRF-TOKEN'
-# CSRF_HEADER_NAME = 'HTTP_X_XSRF_TOKEN'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [

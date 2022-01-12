@@ -4,6 +4,8 @@ import requests
 import os
 
 
+# Validates user originated from JHU CCI then authenticates with username decoded from OpenID
+# Sets an unusable password since we are using JWT authentication
 class JohnsHopkinsAuth(BaseBackend):
 
     def authenticate(self, username):
